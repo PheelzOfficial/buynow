@@ -14,14 +14,23 @@ app.disable('x-powered-by');
 if (env.trustProxy !== undefined) app.set('trust proxy', env.trustProxy);
 app.use(requestContext);
 app.use(helmet());
+// Same-origin requests (e.g. Swagger UI served by this API) are always allowed: browsers send an
+// Origin header on same-origin POST/PATCH/PUT/DELETE too. A cross-site page cannot forge its
+// Origin, so matching it against this request's Host only ever admits our own pages.
+const isSameOrigin = (origin, host) => {
+  try {
+    return new URL(origin).host === host;
+  } catch {
+    return false;
+  }
+};
 app.use(
-  cors({
-    origin(origin, callback) {
-      if (origin && !env.corsOrigins.includes(origin)) {
-        return callback(new ApiError(403, 'CORS_DENIED', 'Origin is not allowed'));
-      }
-      callback(null, true);
-    },
+  cors((req, callback) => {
+    const { origin, host } = req.headers;
+    if (origin && !isSameOrigin(origin, host) && !env.corsOrigins.includes(origin)) {
+      return callback(new ApiError(403, 'CORS_DENIED', 'Origin is not allowed'));
+    }
+    callback(null, { origin: true });
   }),
 );
 app.use(apiLimiter);

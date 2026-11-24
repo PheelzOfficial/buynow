@@ -57,9 +57,12 @@ async function image(url, key, fallback) {
 }
 try {
   if (!mediaOnly) {
-    z.string().min(1).parse(process.env.MONGODB_URI);
-    email.parse(process.env.ADMIN_EMAIL);
-    password.parse(process.env.ADMIN_PASSWORD);
+    // One object schema so each error names its variable (values are never printed).
+    z.object({
+      MONGODB_URI: z.string().min(1),
+      ADMIN_EMAIL: email,
+      ADMIN_PASSWORD: password,
+    }).parse(process.env);
     await mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 10000 });
   }
   for (const c of catalog.categories) {
@@ -127,7 +130,11 @@ try {
   await fs.writeFile(reportPath, JSON.stringify(report, null, 2));
 } catch (e) {
   console.error(
-    `Seed failed (${e.name}): ${e instanceof z.ZodError ? 'Missing or invalid configuration; check .env' : e.message.replace(/mongodb[^\s]*/gi, '[redacted]')}`,
+    `Seed failed (${e.name}): ${
+      e instanceof z.ZodError
+        ? `invalid configuration in backend/.env:\n${e.issues.map((i) => `  ${i.path.join('.')}: ${i.message}`).join('\n')}`
+        : e.message.replace(/mongodb[^\s]*/gi, '[redacted]')
+    }`,
   );
   process.exitCode = 1;
 } finally {
