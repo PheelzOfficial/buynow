@@ -1,0 +1,2 @@
+# Optional: formatting for the Python catalog preparation helpers only.
+black==26.10.1

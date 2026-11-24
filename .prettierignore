@@ -1,0 +1,7 @@
+node_modules
+.env
+seed-report.json
+package-lock.json
+coverage/
+*.py
+__pycache__/

@@ -1,0 +1,1416 @@
+{
+  "categories": [
+    {
+      "id": "electronics",
+      "name": "Electronics",
+      "image": "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=500"
+    },
+    {
+      "id": "fashion",
+      "name": "Fashion",
+      "image": "https://images.unsplash.com/photo-1445205170230-053b83016050?w=500"
+    },
+    {
+      "id": "footwear",
+      "name": "Footwear",
+      "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"
+    },
+    {
+      "id": "beauty",
+      "name": "Beauty & Skincare",
+      "image": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500"
+    },
+    {
+      "id": "home",
+      "name": "Home & Living",
+      "image": "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=500"
+    },
+    {
+      "id": "sports",
+      "name": "Sports & Fitness",
+      "image": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500"
+    },
+    {
+      "id": "accessories",
+      "name": "Accessories",
+      "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"
+    },
+    {
+      "id": "furniture",
+      "name": "Furniture",
+      "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500"
+    },
+    {
+      "id": "gaming",
+      "name": "Gaming",
+      "image": "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=500"
+    },
+    {
+      "id": "books",
+      "name": "Books & Stationery",
+      "image": "https://images.unsplash.com/photo-1497633762265-9d7b5adc6c96?w=500"
+    }
+  ],
+  "products": [
+    {
+      "id": "PROD001",
+      "categoryId": "electronics",
+      "name": "Apple iPhone 15 Pro Max",
+      "description": "Apple smartphone with a 6.7-inch Super Retina XDR display, A17 Pro chip, titanium design and advanced camera system.",
+      "images": ["https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800"],
+      "stock": 15,
+      "price": 1450000.0,
+      "ratings": 4.8,
+      "reviews": 245,
+      "colors": ["#000000", "#FFFFFF", "#607D8B"],
+      "createdAt": "2026-10-01T00:00:00.000Z"
+    },
+    {
+      "id": "PROD002",
+      "categoryId": "electronics",
+      "name": "Samsung Galaxy S24 Ultra",
+      "description": "Samsung flagship smartphone featuring Galaxy AI, an integrated S Pen, a 200MP main camera and a 6.8-inch display.",
+      "images": ["https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800"],
+      "stock": 12,
+      "price": 1350000.0,
+      "ratings": 4.9,
+      "reviews": 189,
+      "colors": ["#000000", "#9E9E9E", "#673AB7"],
+      "createdAt": "2026-10-02T00:00:00.000Z"
+    },
+    {
+      "id": "PROD003",
+      "categoryId": "electronics",
+      "name": "Apple MacBook Air M2",
+      "description": "13.6-inch Apple laptop powered by the M2 chip, featuring a Liquid Retina display and lightweight aluminium design.",
+      "images": ["https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800"],
+      "stock": 8,
+      "price": 1650000.0,
+      "ratings": 4.9,
+      "reviews": 120,
+      "colors": ["#9E9E9E", "#607D8B"],
+      "createdAt": "2026-10-03T00:00:00.000Z"
+    },
+    {
+      "id": "PROD004",
+      "categoryId": "electronics",
+      "name": "Sony WH-1000XM5 Headphones",
+      "description": "Wireless over-ear headphones with active noise cancellation, multipoint connectivity and up to 30 hours of battery life.",
+      "images": ["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800"],
+      "stock": 25,
+      "price": 420000.0,
+      "ratings": 4.7,
+      "reviews": 310,
+      "colors": ["#000000", "#FFFFFF"],
+      "createdAt": "2026-10-04T00:00:00.000Z"
+    },
+    {
+      "id": "PROD005",
+      "categoryId": "electronics",
+      "name": "Apple Watch Series 9",
+      "description": "Apple smartwatch with fitness tracking, heart rate monitoring, an always-on Retina display and advanced health features.",
+      "images": ["https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800"],
+      "stock": 18,
+      "price": 490000.0,
+      "ratings": 4.8,
+      "reviews": 156,
+      "colors": ["#000000", "#E91E63", "#9E9E9E"],
+      "createdAt": "2026-10-05T00:00:00.000Z"
+    },
+    {
+      "id": "PROD006",
+      "categoryId": "footwear",
+      "name": "Nike Air Max 270",
+      "description": "Nike lifestyle sneakers featuring a large Max Air heel unit, breathable upper and cushioned comfort.",
+      "images": ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800"],
+      "stock": 35,
+      "price": 185000.0,
+      "ratings": 4.7,
+      "reviews": 430,
+      "colors": ["#F44336", "#000000", "#FFFFFF"],
+      "createdAt": "2026-10-06T00:00:00.000Z"
+    },
+    {
+      "id": "PROD007",
+      "categoryId": "footwear",
+      "name": "Adidas Ultraboost 22",
+      "description": "Performance running shoes with responsive BOOST cushioning, supportive fit and Continental rubber outsole.",
+      "images": ["https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800"],
+      "stock": 20,
+      "price": 210000.0,
+      "ratings": 4.6,
+      "reviews": 220,
+      "colors": ["#000000", "#FFFFFF", "#2196F3"],
+      "createdAt": "2026-10-07T00:00:00.000Z"
+    },
+    {
+      "id": "PROD008",
+      "categoryId": "fashion",
+      "name": "Levi's 501 Original Jeans",
+      "description": "Classic straight-leg denim jeans with a button fly and traditional five-pocket styling.",
+      "images": ["https://images.unsplash.com/photo-1542272604-787c3835535d?w=800"],
+      "stock": 40,
+      "price": 95000.0,
+      "ratings": 4.5,
+      "reviews": 175,
+      "colors": ["#2196F3", "#000000", "#607D8B"],
+      "createdAt": "2026-10-08T00:00:00.000Z"
+    },
+    {
+      "id": "PROD009",
+      "categoryId": "fashion",
+      "name": "Nike Sportswear Club T-Shirt",
+      "description": "Comfortable everyday cotton T-shirt with a classic fit and Nike branding.",
+      "images": ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800"],
+      "stock": 60,
+      "price": 35000.0,
+      "ratings": 4.5,
+      "reviews": 98,
+      "colors": ["#FFFFFF", "#000000", "#9E9E9E"],
+      "createdAt": "2026-10-09T00:00:00.000Z"
+    },
+    {
+      "id": "PROD010",
+      "categoryId": "fashion",
+      "name": "Michael Kors Jet Set Tote Bag",
+      "description": "Stylish everyday tote bag with a spacious interior, shoulder straps and signature Michael Kors detailing.",
+      "images": ["https://images.unsplash.com/photo-1547949003-9792a18a2601?w=800"],
+      "stock": 14,
+      "price": 245000.0,
+      "ratings": 4.6,
+      "reviews": 87,
+      "colors": ["#795548", "#000000"],
+      "createdAt": "2026-10-10T00:00:00.000Z"
+    },
+    {
+      "id": "PROD011",
+      "categoryId": "beauty",
+      "name": "Dior Sauvage Eau de Parfum",
+      "description": "Men's fragrance with fresh bergamot, warm spicy notes and a rich amber-woody character.",
+      "images": ["https://images.unsplash.com/photo-1541643600914-78b084683601?w=800"],
+      "stock": 22,
+      "price": 285000.0,
+      "ratings": 4.8,
+      "reviews": 320,
+      "colors": ["#000000", "#607D8B"],
+      "createdAt": "2026-10-11T00:00:00.000Z"
+    },
+    {
+      "id": "PROD012",
+      "categoryId": "beauty",
+      "name": "CeraVe Moisturizing Cream",
+      "description": "Moisturizing cream formulated with ceramides and hyaluronic acid to help restore the skin's protective barrier.",
+      "images": ["https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=800"],
+      "stock": 45,
+      "price": 28000.0,
+      "ratings": 4.7,
+      "reviews": 410,
+      "colors": ["#FFFFFF", "#2196F3"],
+      "createdAt": "2026-10-12T00:00:00.000Z"
+    },
+    {
+      "id": "PROD013",
+      "categoryId": "beauty",
+      "name": "Maybelline Fit Me Foundation",
+      "description": "Liquid foundation designed to provide natural-looking coverage with a smooth finish.",
+      "images": ["https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800"],
+      "stock": 50,
+      "price": 18000.0,
+      "ratings": 4.5,
+      "reviews": 260,
+      "colors": ["#795548", "#FF5722", "#FF9800"],
+      "createdAt": "2026-10-13T00:00:00.000Z"
+    },
+    {
+      "id": "PROD014",
+      "categoryId": "home",
+      "name": "JBL Flip 6 Bluetooth Speaker",
+      "description": "Portable waterproof Bluetooth speaker with JBL Original Pro Sound and up to 12 hours of playtime.",
+      "images": ["https://images.unsplash.com/photo-1589003077984-894e133dabab?w=800"],
+      "stock": 30,
+      "price": 145000.0,
+      "ratings": 4.7,
+      "reviews": 215,
+      "colors": ["#000000", "#2196F3", "#F44336"],
+      "createdAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+      "id": "PROD015",
+      "categoryId": "home",
+      "name": "Ray-Ban Original Wayfarer",
+      "description": "Iconic sunglasses featuring a classic square frame, durable construction and UV-protective lenses.",
+      "images": ["https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800"],
+      "stock": 16,
+      "price": 175000.0,
+      "ratings": 4.6,
+      "reviews": 142,
+      "colors": ["#000000", "#795548"],
+      "createdAt": "2026-10-15T00:00:00.000Z"
+    },
+    {
+      "id": "PROD016",
+      "categoryId": "electronics",
+      "name": "Sony PlayStation 5",
+      "description": "Sony gaming console with ultra-high-speed SSD storage, DualSense controller support and immersive 3D audio.",
+      "images": ["https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=800"],
+      "stock": 10,
+      "price": 850000.0,
+      "ratings": 4.9,
+      "reviews": 520,
+      "colors": ["#FFFFFF", "#000000"],
+      "createdAt": "2026-10-16T00:00:00.000Z"
+    },
+    {
+      "id": "PROD017",
+      "categoryId": "electronics",
+      "name": "Apple iPad Air",
+      "description": "Apple tablet with a Liquid Retina display, powerful performance and support for Apple Pencil.",
+      "images": ["https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800"],
+      "stock": 17,
+      "price": 690000.0,
+      "ratings": 4.8,
+      "reviews": 195,
+      "colors": ["#9E9E9E", "#2196F3", "#9C27B0"],
+      "createdAt": "2026-10-17T00:00:00.000Z"
+    },
+    {
+      "id": "PROD018",
+      "categoryId": "home",
+      "name": "IKEA KIVIK Sofa",
+      "description": "Comfortable living room sofa with deep seating, supportive cushions and removable covers.",
+      "images": ["https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800"],
+      "stock": 5,
+      "price": 950000.0,
+      "ratings": 4.5,
+      "reviews": 76,
+      "colors": ["#9E9E9E", "#607D8B"],
+      "createdAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "PROD019",
+      "categoryId": "electronics",
+      "name": "Casio G-SHOCK Watch",
+      "description": "Durable sports watch designed with shock resistance, water resistance and multiple timing functions.",
+      "images": ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800"],
+      "stock": 24,
+      "price": 125000.0,
+      "ratings": 4.6,
+      "reviews": 165,
+      "colors": ["#000000", "#F44336", "#4CAF50"],
+      "createdAt": "2026-10-19T00:00:00.000Z"
+    },
+    {
+      "id": "PROD020",
+      "categoryId": "home",
+      "name": "Philips Hue Smart Bulb",
+      "description": "Smart LED bulb with adjustable lighting, app control and compatibility with supported smart home systems.",
+      "images": ["https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=800"],
+      "stock": 38,
+      "price": 45000.0,
+      "ratings": 4.6,
+      "reviews": 133,
+      "colors": ["#FFFFFF", "#FFC107", "#2196F3"],
+      "createdAt": "2026-10-20T00:00:00.000Z"
+    },
+    {
+      "id": "PROD021",
+      "categoryId": "sports",
+      "name": "Bowflex SelectTech 552 Dumbbells",
+      "description": "Adjustable dumbbells designed for strength training at home. Each dumbbell adjusts from 5 to 52.5 pounds, replacing multiple sets of traditional weights.",
+      "images": ["https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800"],
+      "stock": 18,
+      "price": 485000.0,
+      "ratings": 4.8,
+      "reviews": 214,
+      "colors": ["#000000", "#F44336"],
+      "createdAt": "2026-10-21T00:00:00.000Z"
+    },
+    {
+      "id": "PROD022",
+      "categoryId": "gaming",
+      "name": "Nintendo Switch OLED",
+      "description": "Nintendo hybrid gaming console featuring a vibrant 7-inch OLED display, 64GB internal storage, enhanced audio and three flexible play modes.",
+      "images": ["https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=800"],
+      "stock": 14,
+      "price": 425000.0,
+      "ratings": 4.9,
+      "reviews": 326,
+      "colors": ["#FFFFFF", "#000000", "#F44336"],
+      "createdAt": "2026-10-22T00:00:00.000Z"
+    },
+    {
+      "id": "PROD023",
+      "categoryId": "accessories",
+      "name": "Herschel Little America Backpack",
+      "description": "Classic everyday backpack featuring a spacious main compartment, padded laptop sleeve, drawstring closure and adjustable shoulder straps.",
+      "images": ["https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=800"],
+      "stock": 30,
+      "price": 115000.0,
+      "ratings": 4.6,
+      "reviews": 148,
+      "colors": ["#000000", "#2196F3", "#9E9E9E"],
+      "createdAt": "2026-10-23T00:00:00.000Z"
+    },
+    {
+      "id": "PROD024",
+      "categoryId": "furniture",
+      "name": "IKEA MARKUS Office Chair",
+      "description": "Ergonomic office chair with a high mesh backrest, adjustable seat height, built-in lumbar support and tilt mechanism for comfortable working.",
+      "images": ["https://images.unsplash.com/photo-1503602642458-232111445657?w=800"],
+      "stock": 12,
+      "price": 295000.0,
+      "ratings": 4.7,
+      "reviews": 187,
+      "colors": ["#000000", "#9E9E9E"],
+      "createdAt": "2026-10-24T00:00:00.000Z"
+    },
+    {
+      "id": "PROD025",
+      "categoryId": "books",
+      "name": "Atomic Habits by James Clear",
+      "description": "Bestselling personal development book explaining practical strategies for building good habits, breaking bad habits and making small improvements.",
+      "images": ["https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800"],
+      "stock": 45,
+      "price": 18500.0,
+      "ratings": 4.9,
+      "reviews": 540,
+      "colors": ["#FFFFFF"],
+      "createdAt": "2026-10-25T00:00:00.000Z"
+    },
+    {
+      "id": "PROD026",
+      "categoryId": "home",
+      "name": "Ninja AF100 Air Fryer",
+      "description": "Compact 3.8-litre air fryer with multiple cooking functions including air frying, roasting, reheating and dehydrating.",
+      "images": ["https://images.unsplash.com/photo-1585515320310-259814833e62?w=800"],
+      "stock": 20,
+      "price": 185000.0,
+      "ratings": 4.8,
+      "reviews": 295,
+      "colors": ["#000000", "#9E9E9E"],
+      "createdAt": "2026-10-26T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-ELECTRONICS-001",
+      "categoryId": "electronics",
+      "name": "Apple MacBook Pro 14 Inch Space Grey",
+      "description": "Apple MacBook Pro 14 Inch Space Grey. Demonstration catalog item in our electronics collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/1.webp"
+      ],
+      "stock": 20,
+      "price": 7000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-ELECTRONICS-002",
+      "categoryId": "electronics",
+      "name": "Asus Zenbook Pro Dual Screen Laptop",
+      "description": "Asus Zenbook Pro Dual Screen Laptop. Demonstration catalog item in our electronics collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/laptops/asus-zenbook-pro-dual-screen-laptop/1.webp"
+      ],
+      "stock": 21,
+      "price": 10500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FASHION-001",
+      "categoryId": "fashion",
+      "name": "Blue & Black Check Shirt",
+      "description": "Blue & Black Check Shirt. Demonstration catalog item in our fashion collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shirts/blue-&-black-check-shirt/1.webp"
+      ],
+      "stock": 20,
+      "price": 7000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FASHION-002",
+      "categoryId": "fashion",
+      "name": "Gigabyte Aorus Men Tshirt",
+      "description": "Gigabyte Aorus Men Tshirt. Demonstration catalog item in our fashion collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shirts/gigabyte-aorus-men-tshirt/1.webp"
+      ],
+      "stock": 21,
+      "price": 10500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FASHION-003",
+      "categoryId": "fashion",
+      "name": "Man Plaid Shirt",
+      "description": "Man Plaid Shirt. Demonstration catalog item in our fashion collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/1.webp"],
+      "stock": 22,
+      "price": 14000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FASHION-004",
+      "categoryId": "fashion",
+      "name": "Man Short Sleeve Shirt",
+      "description": "Man Short Sleeve Shirt. Demonstration catalog item in our fashion collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shirts/man-short-sleeve-shirt/1.webp"
+      ],
+      "stock": 23,
+      "price": 17500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FASHION-005",
+      "categoryId": "fashion",
+      "name": "Men Check Shirt",
+      "description": "Men Check Shirt. Demonstration catalog item in our fashion collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/mens-shirts/men-check-shirt/1.webp"],
+      "stock": 24,
+      "price": 21000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FASHION-006",
+      "categoryId": "fashion",
+      "name": "Blue Frock",
+      "description": "Blue Frock. Demonstration catalog item in our fashion collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/tops/blue-frock/1.webp"],
+      "stock": 25,
+      "price": 24500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FASHION-007",
+      "categoryId": "fashion",
+      "name": "Girl Summer Dress",
+      "description": "Girl Summer Dress. Demonstration catalog item in our fashion collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/tops/girl-summer-dress/1.webp"],
+      "stock": 26,
+      "price": 28000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FOOTWEAR-001",
+      "categoryId": "footwear",
+      "name": "Nike Air Jordan 1 Red And Black",
+      "description": "Nike Air Jordan 1 Red And Black. Demonstration catalog item in our footwear collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shoes/nike-air-jordan-1-red-and-black/1.webp"
+      ],
+      "stock": 20,
+      "price": 7000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FOOTWEAR-002",
+      "categoryId": "footwear",
+      "name": "Nike Baseball Cleats",
+      "description": "Nike Baseball Cleats. Demonstration catalog item in our footwear collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/mens-shoes/nike-baseball-cleats/1.webp"],
+      "stock": 21,
+      "price": 10500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FOOTWEAR-003",
+      "categoryId": "footwear",
+      "name": "Puma Future Rider Trainers",
+      "description": "Puma Future Rider Trainers. Demonstration catalog item in our footwear collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shoes/puma-future-rider-trainers/1.webp"
+      ],
+      "stock": 22,
+      "price": 14000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FOOTWEAR-004",
+      "categoryId": "footwear",
+      "name": "Sports Sneakers Off White & Red",
+      "description": "Sports Sneakers Off White & Red. Demonstration catalog item in our footwear collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-&-red/1.webp"
+      ],
+      "stock": 23,
+      "price": 17500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FOOTWEAR-005",
+      "categoryId": "footwear",
+      "name": "Sports Sneakers Off White Red",
+      "description": "Sports Sneakers Off White Red. Demonstration catalog item in our footwear collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-red/1.webp"
+      ],
+      "stock": 24,
+      "price": 21000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FOOTWEAR-006",
+      "categoryId": "footwear",
+      "name": "Black & Brown Slipper",
+      "description": "Black & Brown Slipper. Demonstration catalog item in our footwear collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/womens-shoes/black-&-brown-slipper/1.webp"
+      ],
+      "stock": 25,
+      "price": 24500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FOOTWEAR-007",
+      "categoryId": "footwear",
+      "name": "Calvin Klein Heel Shoes",
+      "description": "Calvin Klein Heel Shoes. Demonstration catalog item in our footwear collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/womens-shoes/calvin-klein-heel-shoes/1.webp"
+      ],
+      "stock": 26,
+      "price": 28000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FOOTWEAR-008",
+      "categoryId": "footwear",
+      "name": "Golden Shoes Woman",
+      "description": "Golden Shoes Woman. Demonstration catalog item in our footwear collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/womens-shoes/golden-shoes-woman/1.webp"],
+      "stock": 27,
+      "price": 31500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BEAUTY-001",
+      "categoryId": "beauty",
+      "name": "Essence Mascara Lash Princess",
+      "description": "Essence Mascara Lash Princess. Demonstration catalog item in our beauty collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp"
+      ],
+      "stock": 20,
+      "price": 7000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BEAUTY-002",
+      "categoryId": "beauty",
+      "name": "Eyeshadow Palette with Mirror",
+      "description": "Eyeshadow Palette with Mirror. Demonstration catalog item in our beauty collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/beauty/eyeshadow-palette-with-mirror/1.webp"
+      ],
+      "stock": 21,
+      "price": 10500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BEAUTY-003",
+      "categoryId": "beauty",
+      "name": "Powder Canister",
+      "description": "Powder Canister. Demonstration catalog item in our beauty collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/beauty/powder-canister/1.webp"],
+      "stock": 22,
+      "price": 14000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BEAUTY-004",
+      "categoryId": "beauty",
+      "name": "Red Lipstick",
+      "description": "Red Lipstick. Demonstration catalog item in our beauty collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/beauty/red-lipstick/1.webp"],
+      "stock": 23,
+      "price": 17500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BEAUTY-005",
+      "categoryId": "beauty",
+      "name": "Red Nail Polish",
+      "description": "Red Nail Polish. Demonstration catalog item in our beauty collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/beauty/red-nail-polish/1.webp"],
+      "stock": 24,
+      "price": 21000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BEAUTY-006",
+      "categoryId": "beauty",
+      "name": "Calvin Klein CK One",
+      "description": "Calvin Klein CK One. Demonstration catalog item in our beauty collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/1.webp"],
+      "stock": 25,
+      "price": 24500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BEAUTY-007",
+      "categoryId": "beauty",
+      "name": "Chanel Coco Noir Eau De",
+      "description": "Chanel Coco Noir Eau De. Demonstration catalog item in our beauty collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/1.webp"
+      ],
+      "stock": 26,
+      "price": 28000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-HOME-001",
+      "categoryId": "home",
+      "name": "Decoration Swing",
+      "description": "Decoration Swing. Demonstration catalog item in our home collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/home-decoration/decoration-swing/1.webp"
+      ],
+      "stock": 20,
+      "price": 7000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-HOME-002",
+      "categoryId": "home",
+      "name": "Family Tree Photo Frame",
+      "description": "Family Tree Photo Frame. Demonstration catalog item in our home collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/home-decoration/family-tree-photo-frame/1.webp"
+      ],
+      "stock": 21,
+      "price": 10500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-HOME-003",
+      "categoryId": "home",
+      "name": "House Showpiece Plant",
+      "description": "House Showpiece Plant. Demonstration catalog item in our home collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/home-decoration/house-showpiece-plant/1.webp"
+      ],
+      "stock": 22,
+      "price": 14000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-HOME-004",
+      "categoryId": "home",
+      "name": "Plant Pot",
+      "description": "Plant Pot. Demonstration catalog item in our home collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/home-decoration/plant-pot/1.webp"],
+      "stock": 23,
+      "price": 17500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-HOME-005",
+      "categoryId": "home",
+      "name": "Table Lamp",
+      "description": "Table Lamp. Demonstration catalog item in our home collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/home-decoration/table-lamp/1.webp"],
+      "stock": 24,
+      "price": 21000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-SPORTS-001",
+      "categoryId": "sports",
+      "name": "American Football",
+      "description": "American Football. Demonstration catalog item in our sports collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/sports-accessories/american-football/1.webp"
+      ],
+      "stock": 20,
+      "price": 7000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-SPORTS-002",
+      "categoryId": "sports",
+      "name": "Baseball Ball",
+      "description": "Baseball Ball. Demonstration catalog item in our sports collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/sports-accessories/baseball-ball/1.webp"
+      ],
+      "stock": 21,
+      "price": 10500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-SPORTS-003",
+      "categoryId": "sports",
+      "name": "Baseball Glove",
+      "description": "Baseball Glove. Demonstration catalog item in our sports collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/sports-accessories/baseball-glove/1.webp"
+      ],
+      "stock": 22,
+      "price": 14000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-SPORTS-004",
+      "categoryId": "sports",
+      "name": "Basketball",
+      "description": "Basketball. Demonstration catalog item in our sports collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/sports-accessories/basketball/1.webp"],
+      "stock": 23,
+      "price": 17500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-SPORTS-005",
+      "categoryId": "sports",
+      "name": "Basketball Rim",
+      "description": "Basketball Rim. Demonstration catalog item in our sports collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/sports-accessories/basketball-rim/1.webp"
+      ],
+      "stock": 24,
+      "price": 21000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-SPORTS-006",
+      "categoryId": "sports",
+      "name": "Cricket Ball",
+      "description": "Cricket Ball. Demonstration catalog item in our sports collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/sports-accessories/cricket-ball/1.webp"],
+      "stock": 25,
+      "price": 24500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-SPORTS-007",
+      "categoryId": "sports",
+      "name": "Cricket Bat",
+      "description": "Cricket Bat. Demonstration catalog item in our sports collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/sports-accessories/cricket-bat/1.webp"],
+      "stock": 26,
+      "price": 28000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-SPORTS-008",
+      "categoryId": "sports",
+      "name": "Cricket Helmet",
+      "description": "Cricket Helmet. Demonstration catalog item in our sports collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/sports-accessories/cricket-helmet/1.webp"
+      ],
+      "stock": 27,
+      "price": 31500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-SPORTS-009",
+      "categoryId": "sports",
+      "name": "Cricket Wicket",
+      "description": "Cricket Wicket. Demonstration catalog item in our sports collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/sports-accessories/cricket-wicket/1.webp"
+      ],
+      "stock": 28,
+      "price": 35000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-ACCESSORIES-001",
+      "categoryId": "accessories",
+      "name": "Black Sun Glasses",
+      "description": "Black Sun Glasses. Demonstration catalog item in our accessories collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/sunglasses/black-sun-glasses/1.webp"],
+      "stock": 20,
+      "price": 7000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-ACCESSORIES-002",
+      "categoryId": "accessories",
+      "name": "Classic Sun Glasses",
+      "description": "Classic Sun Glasses. Demonstration catalog item in our accessories collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/sunglasses/classic-sun-glasses/1.webp"],
+      "stock": 21,
+      "price": 10500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-ACCESSORIES-003",
+      "categoryId": "accessories",
+      "name": "Green and Black Glasses",
+      "description": "Green and Black Glasses. Demonstration catalog item in our accessories collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/sunglasses/green-and-black-glasses/1.webp"
+      ],
+      "stock": 22,
+      "price": 14000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-ACCESSORIES-004",
+      "categoryId": "accessories",
+      "name": "Party Glasses",
+      "description": "Party Glasses. Demonstration catalog item in our accessories collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/sunglasses/party-glasses/1.webp"],
+      "stock": 23,
+      "price": 17500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-ACCESSORIES-005",
+      "categoryId": "accessories",
+      "name": "Sunglasses",
+      "description": "Sunglasses. Demonstration catalog item in our accessories collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/sunglasses/sunglasses/1.webp"],
+      "stock": 24,
+      "price": 21000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-ACCESSORIES-006",
+      "categoryId": "accessories",
+      "name": "Blue Women's Handbag",
+      "description": "Blue Women's Handbag. Demonstration catalog item in our accessories collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/womens-bags/blue-women's-handbag/1.webp"
+      ],
+      "stock": 25,
+      "price": 24500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-ACCESSORIES-007",
+      "categoryId": "accessories",
+      "name": "Heshe Women's Leather Bag",
+      "description": "Heshe Women's Leather Bag. Demonstration catalog item in our accessories collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/womens-bags/heshe-women's-leather-bag/1.webp"
+      ],
+      "stock": 26,
+      "price": 28000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-ACCESSORIES-008",
+      "categoryId": "accessories",
+      "name": "Prada Women Bag",
+      "description": "Prada Women Bag. Demonstration catalog item in our accessories collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/womens-bags/prada-women-bag/1.webp"],
+      "stock": 27,
+      "price": 31500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-ACCESSORIES-009",
+      "categoryId": "accessories",
+      "name": "White Faux Leather Backpack",
+      "description": "White Faux Leather Backpack. Demonstration catalog item in our accessories collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/womens-bags/white-faux-leather-backpack/1.webp"
+      ],
+      "stock": 28,
+      "price": 35000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FURNITURE-001",
+      "categoryId": "furniture",
+      "name": "Annibale Colombo Bed",
+      "description": "Annibale Colombo Bed. Demonstration catalog item in our furniture collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/1.webp"],
+      "stock": 20,
+      "price": 7000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FURNITURE-002",
+      "categoryId": "furniture",
+      "name": "Annibale Colombo Sofa",
+      "description": "Annibale Colombo Sofa. Demonstration catalog item in our furniture collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": ["https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/1.webp"],
+      "stock": 21,
+      "price": 10500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FURNITURE-003",
+      "categoryId": "furniture",
+      "name": "Bedside Table African Cherry",
+      "description": "Bedside Table African Cherry. Demonstration catalog item in our furniture collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/furniture/bedside-table-african-cherry/1.webp"
+      ],
+      "stock": 22,
+      "price": 14000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FURNITURE-004",
+      "categoryId": "furniture",
+      "name": "Knoll Saarinen Executive Conference Chair",
+      "description": "Knoll Saarinen Executive Conference Chair. Demonstration catalog item in our furniture collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/furniture/knoll-saarinen-executive-conference-chair/1.webp"
+      ],
+      "stock": 23,
+      "price": 17500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FURNITURE-005",
+      "categoryId": "furniture",
+      "name": "Wooden Bathroom Sink With Mirror",
+      "description": "Wooden Bathroom Sink With Mirror. Demonstration catalog item in our furniture collection. Product photography is supplied by the DummyJSON sample catalog; verify specifications and pricing before sale.",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/furniture/wooden-bathroom-sink-with-mirror/1.webp"
+      ],
+      "stock": 24,
+      "price": 21000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FURNITURE-006",
+      "categoryId": "furniture",
+      "name": "Upholstered Footstool",
+      "description": "Upholstered Footstool for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500"],
+      "stock": 25,
+      "price": 24500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FURNITURE-007",
+      "categoryId": "furniture",
+      "name": "Compact Writing Desk",
+      "description": "Compact Writing Desk for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500"],
+      "stock": 26,
+      "price": 28000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FURNITURE-008",
+      "categoryId": "furniture",
+      "name": "Shoe Storage Bench",
+      "description": "Shoe Storage Bench for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500"],
+      "stock": 27,
+      "price": 31500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-FURNITURE-009",
+      "categoryId": "furniture",
+      "name": "Wall Shelf Set",
+      "description": "Wall Shelf Set for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500"],
+      "stock": 28,
+      "price": 35000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-GAMING-001",
+      "categoryId": "gaming",
+      "name": "Wireless Game Controller",
+      "description": "Wireless Game Controller for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=500"],
+      "stock": 20,
+      "price": 7000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-GAMING-002",
+      "categoryId": "gaming",
+      "name": "Gaming Mouse",
+      "description": "Gaming Mouse for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=500"],
+      "stock": 21,
+      "price": 10500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-GAMING-003",
+      "categoryId": "gaming",
+      "name": "Mechanical Gaming Keyboard",
+      "description": "Mechanical Gaming Keyboard for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=500"],
+      "stock": 22,
+      "price": 14000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-GAMING-004",
+      "categoryId": "gaming",
+      "name": "Gaming Headset",
+      "description": "Gaming Headset for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=500"],
+      "stock": 23,
+      "price": 17500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-GAMING-005",
+      "categoryId": "gaming",
+      "name": "Extended Mouse Pad",
+      "description": "Extended Mouse Pad for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=500"],
+      "stock": 24,
+      "price": 21000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-GAMING-006",
+      "categoryId": "gaming",
+      "name": "Controller Charging Dock",
+      "description": "Controller Charging Dock for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=500"],
+      "stock": 25,
+      "price": 24500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-GAMING-007",
+      "categoryId": "gaming",
+      "name": "Console Carry Case",
+      "description": "Console Carry Case for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=500"],
+      "stock": 26,
+      "price": 28000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-GAMING-008",
+      "categoryId": "gaming",
+      "name": "Gaming Monitor Stand",
+      "description": "Gaming Monitor Stand for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=500"],
+      "stock": 27,
+      "price": 31500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-GAMING-009",
+      "categoryId": "gaming",
+      "name": "Controller Thumb Grips",
+      "description": "Controller Thumb Grips for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=500"],
+      "stock": 28,
+      "price": 35000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BOOKS-001",
+      "categoryId": "books",
+      "name": "Dotted Hardcover Notebook",
+      "description": "Dotted Hardcover Notebook for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1497633762265-9d7b5adc6c96?w=500"],
+      "stock": 20,
+      "price": 7000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BOOKS-002",
+      "categoryId": "books",
+      "name": "Weekly Planner",
+      "description": "Weekly Planner for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1497633762265-9d7b5adc6c96?w=500"],
+      "stock": 21,
+      "price": 10500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BOOKS-003",
+      "categoryId": "books",
+      "name": "Watercolor Sketchbook",
+      "description": "Watercolor Sketchbook for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1497633762265-9d7b5adc6c96?w=500"],
+      "stock": 22,
+      "price": 14000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BOOKS-004",
+      "categoryId": "books",
+      "name": "Ballpoint Pen Set",
+      "description": "Ballpoint Pen Set for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1497633762265-9d7b5adc6c96?w=500"],
+      "stock": 23,
+      "price": 17500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BOOKS-005",
+      "categoryId": "books",
+      "name": "Colored Pencil Set",
+      "description": "Colored Pencil Set for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1497633762265-9d7b5adc6c96?w=500"],
+      "stock": 24,
+      "price": 21000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BOOKS-006",
+      "categoryId": "books",
+      "name": "Reading Journal",
+      "description": "Reading Journal for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1497633762265-9d7b5adc6c96?w=500"],
+      "stock": 25,
+      "price": 24500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BOOKS-007",
+      "categoryId": "books",
+      "name": "Pocket Notebook Set",
+      "description": "Pocket Notebook Set for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1497633762265-9d7b5adc6c96?w=500"],
+      "stock": 26,
+      "price": 28000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BOOKS-008",
+      "categoryId": "books",
+      "name": "Desk Stationery Organizer",
+      "description": "Desk Stationery Organizer for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1497633762265-9d7b5adc6c96?w=500"],
+      "stock": 27,
+      "price": 31500.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "id": "SEED-BOOKS-009",
+      "categoryId": "books",
+      "name": "Spiral Study Notebook",
+      "description": "Spiral Study Notebook for everyday use. Illustrative catalog image; confirm specifications before offering this demonstration item for sale.",
+      "images": ["https://images.unsplash.com/photo-1497633762265-9d7b5adc6c96?w=500"],
+      "stock": 28,
+      "price": 35000.0,
+      "ratings": 0,
+      "reviews": 0,
+      "colors": ["#000000"],
+      "createdAt": "2026-11-01T00:00:00.000Z"
+    }
+  ]
+}

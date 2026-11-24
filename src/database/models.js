@@ -1,0 +1,9 @@
+export { User } from '../modules/users/user.model.js';
+export { Category } from '../modules/categories/category.model.js';
+export { Product } from '../modules/products/product.model.js';
+export { Address } from '../modules/addresses/address.model.js';
+export { Cart } from '../modules/cart/cart.model.js';
+export { Favorite } from '../modules/favorites/favorite.model.js';
+export { Order } from '../modules/orders/order.model.js';
+export { Notification } from '../modules/notifications/notification.model.js';
+export { Ticket } from '../modules/support/ticket.model.js';
