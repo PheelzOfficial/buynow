@@ -22,23 +22,26 @@ The API listens on `PORT` (default 4500). `GET /api/v1/health` indicates databas
 
 ## Environment variables
 
-| Variable              | Required     | Purpose                                                                                                           |
-| --------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------- |
-| PORT                  | No           | HTTP port; default 4500                                                                                           |
-| NODE_ENV              | No           | Deployment environment                                                                                            |
-| MONGODB_URI           | Yes          | MongoDB connection string; use a dedicated BuyNow database and replica set                                        |
-| JWT_SECRET            | Yes          | Random signing and OTP hashing secret, at least 32 characters; changing it invalidates sessions and existing OTPs |
-| CLOUDINARY_NAME       | Upload/seed  | Existing Cloudinary cloud name                                                                                    |
-| CLOUDINARY_API_KEY    | Upload/seed  | Cloudinary API key                                                                                                |
-| CLOUDINARY_API_SECRET | Upload/seed  | Cloudinary secret; server only                                                                                    |
-| CORS_ORIGINS          | Web clients  | Comma-separated exact browser origins; no wildcard. Native Flutter requests without Origin are accepted           |
-| TRUST_PROXY           | No           | Number of trusted proxy hops; leave empty for direct connections                                                  |
-| BREVO_API_KEY         | OTP delivery | Brevo API key, server-side only                                                                                   |
-| BREVO_SENDER_EMAIL    | OTP delivery | Sender email verified in Brevo                                                                                    |
-| BREVO_SENDER_NAME     | No           | Sender display name; defaults to BuyNow                                                                           |
-| ADMIN_EMAIL           | Seed         | Admin login email; no built-in default credentials                                                                |
-| ADMIN_PASSWORD        | Seed         | At least 12 and at most 72 characters, uppercase, lowercase, digit                                                |
-| ADMIN_USERNAME        | No           | Admin display name; default BuyNow Admin                                                                          |
+| Variable                   | Required     | Purpose                                                                                                           |
+| -------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------- |
+| PORT                       | No           | HTTP port; default 4500                                                                                           |
+| NODE_ENV                   | No           | Deployment environment                                                                                            |
+| MONGODB_URI                | Yes          | MongoDB connection string; use a dedicated BuyNow database and replica set                                        |
+| JWT_SECRET                 | Yes          | Random signing and OTP hashing secret, at least 32 characters; changing it invalidates sessions and existing OTPs |
+| CLOUDINARY_NAME            | Upload/seed  | Existing Cloudinary cloud name                                                                                    |
+| CLOUDINARY_API_KEY         | Upload/seed  | Cloudinary API key                                                                                                |
+| CLOUDINARY_API_SECRET      | Upload/seed  | Cloudinary secret; server only                                                                                    |
+| CORS_ORIGINS               | Web clients  | Comma-separated exact browser origins; no wildcard. Native Flutter requests without Origin are accepted           |
+| TRUST_PROXY                | No           | Number of trusted proxy hops; leave empty for direct connections                                                  |
+| BREVO_API_KEY              | OTP delivery | Brevo API key, server-side only                                                                                   |
+| BREVO_SENDER_EMAIL         | OTP delivery | Sender email verified in Brevo                                                                                    |
+| BREVO_SENDER_NAME          | No           | Sender display name; defaults to BuyNow                                                                           |
+| PAYSTACK_SECRET_KEY        | Online pay   | Paystack secret key (`sk_test_…` / `sk_live_…`), server-side only; never put it in the Flutter app                |
+| PAYSTACK_CALLBACK_URL      | No           | Where Paystack redirects after payment; the app's WebView can watch for it                                        |
+| PAYSTACK_ORDER_TTL_MINUTES | No           | Minutes an unpaid Paystack order holds stock before expiring; default 30, range 5–1440                            |
+| ADMIN_EMAIL                | Seed         | Admin login email; no built-in default credentials                                                                |
+| ADMIN_PASSWORD             | Seed         | At least 12 and at most 72 characters, uppercase, lowercase, digit                                                |
+| ADMIN_USERNAME             | No           | Admin display name; default BuyNow Admin                                                                          |
 
 A random JWT secret has been added to the local `.env`. Secrets and upload reports are ignored by Git. Never bundle `.env` in Flutter.
 

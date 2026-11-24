@@ -17,9 +17,10 @@ export const placeOrderBodySchema = z.strictObject({
     description: 'ID of one of your saved addresses to ship to (from GET /addresses).',
     example: '665f1c2e9b1d4a3f8c7e2a10',
   }),
-  paymentMethod: z.literal('cash_on_delivery').meta({
-    description: 'How the order is paid. Only cash_on_delivery is supported.',
-    example: 'cash_on_delivery',
+  paymentMethod: z.enum(['cash_on_delivery', 'paystack']).meta({
+    description:
+      'cash_on_delivery: pay the courier. paystack: pay online now; the response includes `payment.authorizationUrl` to open, and unpaid orders expire after 30 minutes.',
+    example: 'paystack',
   }),
   idempotencyKey: z.string().uuid().meta({
     description:
@@ -37,6 +38,14 @@ export const getOrderParamsSchema = z.strictObject({ id: orderId });
 export const cancelOrderParamsSchema = z.strictObject({ id: orderId });
 
 export const cancelOrderBodySchema = empty;
+
+export const startPaymentParamsSchema = z.strictObject({ id: orderId });
+
+export const startPaymentBodySchema = empty;
+
+export const verifyPaymentParamsSchema = z.strictObject({ id: orderId });
+
+export const verifyPaymentBodySchema = empty;
 
 export const updateOrderStatusParamsSchema = z.strictObject({ id: orderId });
 

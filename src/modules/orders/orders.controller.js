@@ -1,9 +1,39 @@
 import { ok } from '../../common/http/response.js';
+import * as payments from './order-payments.service.js';
 import * as service from './orders.service.js';
 
 export async function placeOrder(req, res) {
-  const result = await service.placeOrder({ input: req.validated.body, userId: req.user._id });
+  const result = await service.placeOrder({
+    input: req.validated.body,
+    userId: req.user._id,
+    email: req.user.email,
+  });
   return ok(res, result.data, 'Order placed', 201, result.meta);
+}
+
+export async function startPayment(req, res) {
+  const result = await payments.startPayment({
+    resourceId: req.params.id,
+    userId: req.user._id,
+    email: req.user.email,
+  });
+  return ok(res, result.data, 'Payment ready', 200, result.meta);
+}
+
+export async function verifyPayment(req, res) {
+  const result = await payments.verifyPayment({ resourceId: req.params.id, userId: req.user._id });
+  const message =
+    result.data.paymentStatus === 'paid' ? 'Payment confirmed' : 'Payment not completed yet';
+  return ok(res, result.data, message, 200, result.meta);
+}
+
+export async function paystackWebhook(req, res) {
+  await payments.handlePaystackWebhook({
+    rawBody: req.rawBody,
+    signature: req.get('x-paystack-signature'),
+    event: req.body,
+  });
+  return ok(res, null, 'Webhook received');
 }
 
 export async function listOrders(req, res) {

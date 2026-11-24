@@ -3,14 +3,21 @@ import mongoose from 'mongoose';
 import { ApiError } from '../../common/errors/api-error.js';
 import { missing } from '../../common/errors/not-found.js';
 import { pageMeta } from '../../common/utils/pagination.js';
+import { env } from '../../config/env.js';
+import { assertPaystackConfigured } from '../../integrations/paystack/paystack.client.js';
 import { Address } from '../addresses/address.model.js';
 import { Cart } from '../cart/cart.model.js';
 import { Notification } from '../notifications/notification.model.js';
 import { Product } from '../products/product.model.js';
+import { cancelAndRestock } from './order-cancellation.service.js';
+import { ensurePaymentSession } from './order-payments.service.js';
 import { Order } from './order.model.js';
 
-export async function placeOrder({ input, userId }) {
+export async function placeOrder({ input, userId, email }) {
   const checkout = input;
+  const online = checkout.paymentMethod === 'paystack';
+  // Fail before reserving stock if online payment cannot work at all.
+  if (online) assertPaystackConfigured();
   let result;
   const session = await mongoose.startSession();
   try {
@@ -51,8 +58,11 @@ export async function placeOrder({ input, userId }) {
         });
         cents += Math.round(product.price * 100) * item.quantity;
       }
+      const payment = online
+        ? { expiresAt: new Date(Date.now() + env.paystack.orderTtlMinutes * 60000) }
+        : undefined;
       [result] = await Order.create(
-        [{ userId, ...checkout, address: address.toJSON(), items, total: cents / 100 }],
+        [{ userId, ...checkout, address: address.toJSON(), items, total: cents / 100, payment }],
         { session },
       );
       await Cart.updateOne({ _id: cart._id }, { $set: { items: [] } }, { session });
@@ -70,6 +80,15 @@ export async function placeOrder({ input, userId }) {
   } finally {
     await session.endSession();
   }
+  // Outside the transaction: never hold database locks while waiting on Paystack. If this fails,
+  // the client retries POST /orders with the same idempotencyKey (or POST /orders/:id/payment).
+  // Decided by the stored order, not the request: a replayed key may carry a different method.
+  if (
+    result.paymentMethod === 'paystack' &&
+    result.paymentStatus === 'unpaid' &&
+    result.status === 'pending'
+  )
+    result = await ensurePaymentSession(result, email);
   return { data: result, meta: null };
 }
 
@@ -100,43 +119,32 @@ export async function getOrder({ resourceId, userId }) {
 }
 
 export async function cancelOrder({ resourceId, userId }) {
-  let result;
-  const session = await mongoose.startSession();
-  try {
-    await session.withTransaction(async () => {
-      result = await Order.findOneAndUpdate(
-        { _id: resourceId, userId, status: 'pending' },
-        { $set: { status: 'cancelled' } },
-        { new: true, session },
-      );
-      if (!result)
-        throw new ApiError(
-          409,
-          'ORDER_NOT_CANCELLABLE',
-          'Only your pending orders can be cancelled',
-        );
-      for (const item of result.items)
-        await Product.updateOne(
-          { _id: item.productId },
-          { $inc: { stock: item.quantity } },
-          { session },
-        );
-    });
-  } finally {
-    await session.endSession();
-  }
+  // Paid orders need a refund, so customers cannot cancel them directly.
+  const result = await cancelAndRestock({ _id: resourceId, userId });
+  if (!result)
+    throw new ApiError(
+      409,
+      'ORDER_NOT_CANCELLABLE',
+      'Only your pending, unpaid orders can be cancelled',
+    );
   return { data: result, meta: null };
 }
 
 export async function updateOrderStatus({ input, resourceId }) {
   const target = input.status,
     previous = { processing: 'pending', shipped: 'processing', delivered: 'shipped' }[target];
+  // Online orders must be paid before fulfilment starts; cash orders are paid on delivery.
+  const paidOrCash = { $or: [{ paymentMethod: { $ne: 'paystack' } }, { paymentStatus: 'paid' }] };
   const order = await Order.findOneAndUpdate(
-    { _id: resourceId, status: previous },
+    { _id: resourceId, status: previous, ...paidOrCash },
     { $set: { status: target, ...(target === 'delivered' ? { paymentStatus: 'paid' } : {}) } },
     { new: true },
   );
-  if (!order)
+  if (!order) {
+    const unpaid = await Order.exists({ _id: resourceId, status: previous });
+    if (unpaid)
+      throw new ApiError(409, 'PAYMENT_REQUIRED', 'This order has not been paid online yet');
     throw new ApiError(409, 'INVALID_ORDER_TRANSITION', 'Order cannot move to that status');
+  }
   return { data: order, meta: null };
 }

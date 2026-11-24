@@ -34,7 +34,15 @@ app.use(
   }),
 );
 app.use(apiLimiter);
-app.use(express.json({ limit: '100kb' }));
+app.use(
+  express.json({
+    limit: '100kb',
+    // Webhook signatures are computed over the exact bytes received, not re-serialized JSON.
+    verify: (req, res, buffer) => {
+      req.rawBody = buffer;
+    },
+  }),
+);
 app.use('/api/v1', routes);
 app.use((req, res, next) => next(new ApiError(404, 'NOT_FOUND', 'Endpoint not found')));
 app.use(errorHandler);

@@ -45,6 +45,25 @@ router.post(
   controller.cancelOrder,
 );
 
+router.post(
+  '/orders/:id/payment',
+  authenticate,
+  validate(schemas.startPaymentParamsSchema, 'params'),
+  validate(schemas.startPaymentBodySchema),
+  controller.startPayment,
+);
+
+router.post(
+  '/orders/:id/payment/verify',
+  authenticate,
+  validate(schemas.verifyPaymentParamsSchema, 'params'),
+  validate(schemas.verifyPaymentBodySchema),
+  controller.verifyPayment,
+);
+
+// Called by Paystack, not the app. Authenticated by the HMAC signature instead of a token.
+router.post('/payments/paystack/webhook', controller.paystackWebhook);
+
 router.patch(
   '/admin/orders/:id/status',
   authenticate,

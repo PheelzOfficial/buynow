@@ -36,6 +36,15 @@ export const env = {
     if (process.env.API_DOCS) return process.env.API_DOCS === 'true';
     return process.env.NODE_ENV !== 'production';
   },
+  get paystack() {
+    return {
+      secretKey: process.env.PAYSTACK_SECRET_KEY,
+      // Where Paystack redirects the browser after payment; the app can watch for this URL.
+      callbackUrl: process.env.PAYSTACK_CALLBACK_URL,
+      // Unpaid Paystack orders release their reserved stock after this many minutes.
+      orderTtlMinutes: Number(process.env.PAYSTACK_ORDER_TTL_MINUTES || 30),
+    };
+  },
   get brevo() {
     return {
       apiKey: process.env.BREVO_API_KEY,
@@ -52,6 +61,10 @@ export function validateEnvironment() {
   if (env.jwtSecret.length < 32) throw new Error('JWT_SECRET must have at least 32 characters');
   if (!Number.isInteger(env.port) || env.port < 1 || env.port > 65535) {
     throw new Error('PORT must be an integer between 1 and 65535');
+  }
+  const ttl = env.paystack.orderTtlMinutes;
+  if (!Number.isInteger(ttl) || ttl < 5 || ttl > 24 * 60) {
+    throw new Error('PAYSTACK_ORDER_TTL_MINUTES must be an integer between 5 and 1440');
   }
   if (env.trustProxy !== undefined && (!Number.isInteger(env.trustProxy) || env.trustProxy < 0)) {
     throw new Error('TRUST_PROXY must be a nonnegative integer');

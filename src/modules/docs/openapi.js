@@ -452,9 +452,65 @@ const operations = [
         403: errorResponse('EMAIL_NOT_VERIFIED'),
         404: errorResponse('NOT_FOUND — address'),
         409: errorResponse('INSUFFICIENT_STOCK / CONFLICT'),
+        502: errorResponse('PAYMENT_PROVIDER_ERROR — retry with the same idempotencyKey'),
+        503: errorResponse('PAYMENT_UNAVAILABLE — Paystack not configured'),
       },
       description:
-        'Generate `idempotencyKey` once per checkout and reuse it on retries; a repeated key returns the existing order.',
+        'Generate `idempotencyKey` once per checkout and reuse it on retries; a repeated key returns the existing order.\n\n' +
+        '**Paystack flow:** with `paymentMethod: "paystack"` the response includes `payment.authorizationUrl`. ' +
+        'Open it in a WebView or browser; when the customer finishes (or the page redirects to your callback URL), ' +
+        'call `POST /orders/{id}/payment/verify`. Stock is reserved now and released if unpaid by `payment.expiresAt`.',
+    },
+  ],
+  [
+    'post',
+    '/orders/{id}/payment',
+    {
+      tag: 'Orders',
+      summary: 'Get the Paystack checkout for an unpaid order',
+      access: 'user',
+      params: orders.startPaymentParamsSchema,
+      body: orders.startPaymentBodySchema,
+      data: ref('Order'),
+      errors: {
+        404: errorResponse('NOT_FOUND'),
+        409: errorResponse('PAYMENT_NOT_REQUIRED / ORDER_ALREADY_PAID / ORDER_NOT_PAYABLE'),
+        502: errorResponse('PAYMENT_PROVIDER_ERROR'),
+        503: errorResponse('PAYMENT_UNAVAILABLE'),
+      },
+      description:
+        'Use for a "Pay now" button on an existing order. Returns the same checkout each time until it is paid or expires.',
+    },
+  ],
+  [
+    'post',
+    '/orders/{id}/payment/verify',
+    {
+      tag: 'Orders',
+      summary: 'Confirm payment with Paystack',
+      access: 'user',
+      params: orders.verifyPaymentParamsSchema,
+      body: orders.verifyPaymentBodySchema,
+      data: ref('Order'),
+      errors: {
+        404: errorResponse('NOT_FOUND'),
+        409: errorResponse('PAYMENT_NOT_REQUIRED / PAYMENT_MISMATCH'),
+        502: errorResponse('PAYMENT_PROVIDER_ERROR'),
+      },
+      description:
+        'Call after the customer leaves the Paystack page. The server asks Paystack directly; check `paymentStatus` in the response (`paid` or still `unpaid`). Safe to call repeatedly.',
+    },
+  ],
+  [
+    'post',
+    '/payments/paystack/webhook',
+    {
+      tag: 'Payments',
+      summary: 'Paystack webhook (called by Paystack, not the app)',
+      access: 'public',
+      errors: { 401: errorResponse('INVALID_SIGNATURE') },
+      description:
+        'Set this URL in the Paystack dashboard (Settings → API Keys & Webhooks). Requests must carry a valid `x-paystack-signature`; `charge.success` events mark the matching order paid after re-verifying with Paystack.',
     },
   ],
   [
@@ -491,7 +547,7 @@ const operations = [
       params: orders.cancelOrderParamsSchema,
       body: orders.cancelOrderBodySchema,
       data: ref('Order'),
-      errors: { 409: errorResponse('ORDER_NOT_CANCELLABLE') },
+      errors: { 409: errorResponse('ORDER_NOT_CANCELLABLE — not pending, or already paid') },
     },
   ],
   [
@@ -516,7 +572,9 @@ const operations = [
       params: orders.updateOrderStatusParamsSchema,
       body: orders.updateOrderStatusBodySchema,
       data: ref('Order'),
-      errors: { 409: errorResponse('INVALID_ORDER_TRANSITION') },
+      errors: {
+        409: errorResponse('INVALID_ORDER_TRANSITION / PAYMENT_REQUIRED (unpaid Paystack order)'),
+      },
       description:
         'pending → processing → shipped → delivered; no skipping. `delivered` marks cash-on-delivery as paid.',
     },
@@ -710,8 +768,31 @@ const components = {
         address: { type: 'object', properties: addressFields },
         total: num,
         currency: { const: 'NGN' },
-        paymentMethod: { const: 'cash_on_delivery' },
-        paymentStatus: { enum: ['unpaid', 'paid'] },
+        paymentMethod: { enum: ['cash_on_delivery', 'paystack'] },
+        paymentStatus: {
+          enum: ['unpaid', 'paid', 'refund_due'],
+          description:
+            'refund_due: paid after the order expired or was cancelled; admin must refund.',
+        },
+        payment: {
+          type: 'object',
+          description: 'Present on paystack orders only.',
+          properties: {
+            reference: { type: 'string', description: 'Paystack transaction reference' },
+            authorizationUrl: {
+              type: 'string',
+              format: 'uri',
+              description: 'Open this Paystack checkout page (WebView/browser) to pay',
+            },
+            accessCode: {
+              type: 'string',
+              description: 'Alternative to the URL for Paystack mobile SDKs',
+            },
+            expiresAt: { ...date, description: 'Unpaid order is cancelled after this time' },
+            paidAt: date,
+            channel: { type: 'string', description: 'e.g. card, bank, ussd, bank_transfer' },
+          },
+        },
         status: { enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'] },
         ...timestamps,
       },

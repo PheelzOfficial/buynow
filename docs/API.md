@@ -257,12 +257,34 @@ Authenticated and email-verified. Required body:
 | Field          | Type            | Meaning                                              |
 | -------------- | --------------- | ---------------------------------------------------- |
 | addressId      | ObjectId string | Own saved shipping address                           |
-| paymentMethod  | string          | Only `cash_on_delivery` supported                    |
+| paymentMethod  | string          | `cash_on_delivery` or `paystack` (pay online now)    |
 | idempotencyKey | UUID string     | Generate once per checkout; reuse on network retries |
 
 Returns 201 Order. The server reads the cart, atomically checks/decrements stock, snapshots product prices and address, calculates the total, creates the order and notification, then clears the cart. All writes share a transaction. Item prices are converted to integer kobo during addition, then returned in NGN. No shipping/tax charge is added. No client price or paid-status claim is trusted.
 
 Repeating a successful idempotency key returns the existing order even if the cart is now empty; use a new key for a new order. A conflicting concurrent duplicate can return 409; retry the same key to retrieve the committed order. Empty cart: 400 EMPTY_CART; insufficient/unavailable stock: 409 INSUFFICIENT_STOCK; missing/foreign address: 404; unverified user: 403 EMAIL_NOT_VERIFIED. These failures do not consume stock or clear the cart.
+
+### Paystack checkout
+
+With `paymentMethod: "paystack"` the order is created exactly as above (stock reserved, cart cleared) and the response also contains `payment`: `{reference, authorizationUrl, accessCode, expiresAt}`. Missing `PAYSTACK_SECRET_KEY`: 503 PAYMENT_UNAVAILABLE before anything is reserved. If Paystack cannot be reached, the order is still saved and the response is 502 PAYMENT_PROVIDER_ERROR; retry `POST /orders` with the **same** idempotencyKey to get the checkout.
+
+1. Open `payment.authorizationUrl` in a WebView or the browser (or pass `accessCode` to a Paystack mobile SDK).
+2. When the customer finishes, or the WebView navigates to `PAYSTACK_CALLBACK_URL`, call `POST /orders/:id/payment/verify`.
+3. Show success only when the returned order has `paymentStatus: "paid"`. `unpaid` means not completed yet.
+
+The server never trusts the app's claim of payment. An order becomes paid only when Paystack itself reports a successful charge for the exact amount in NGN, either via the verify endpoint or the signed webhook. A different amount returns 409 PAYMENT_MISMATCH and the order stays unpaid. Unpaid Paystack orders are cancelled and their stock released after `PAYSTACK_ORDER_TTL_MINUTES` (default 30); the server re-checks Paystack before cancelling. Money arriving after cancellation sets `paymentStatus: "refund_due"` and is logged as `REFUND_DUE` for an admin to refund in the Paystack dashboard.
+
+### POST /orders/:id/payment — resume payment
+
+Authenticated, empty body. Returns the Order with its Paystack checkout, reusing the existing one. For a "Pay now" button on an unpaid order. Cash order: 409 PAYMENT_NOT_REQUIRED; already paid: 409 ORDER_ALREADY_PAID; expired/cancelled: 409 ORDER_NOT_PAYABLE.
+
+### POST /orders/:id/payment/verify — confirm payment
+
+Authenticated, empty body. Asks Paystack for the transaction state and returns the updated Order. Message is `Payment confirmed` when paid, otherwise `Payment not completed yet`. Safe to call repeatedly.
+
+### POST /payments/paystack/webhook — Paystack events
+
+Called by Paystack, not the app. Register `https://<your-host>/api/v1/payments/paystack/webhook` in the Paystack dashboard. Requests without a valid `x-paystack-signature` (HMAC-SHA512 of the raw body with the secret key) get 401 INVALID_SIGNATURE. `charge.success` events are re-verified with Paystack before the order is marked paid. This keeps orders correct even if the app closes before calling verify.
 
 ### GET /orders — own order list
 
@@ -274,7 +296,7 @@ Authenticated. ObjectId path. Returns Order or 404, including immutable item/add
 
 ### POST /orders/:id/cancel — cancel pending order
 
-Authenticated. Empty body. Only an owned pending order can be cancelled. Transactionally changes status and restores each product's quantity once. Returns updated Order. Already cancelled/non-pending/missing/foreign order: 409 ORDER_NOT_CANCELLABLE. Retrying cannot restore stock twice.
+Authenticated. Empty body. Only an owned pending, unpaid order can be cancelled (a paid Paystack order needs a refund through support). Transactionally changes status and restores each product's quantity once. Returns updated Order. Already cancelled/non-pending/missing/foreign order: 409 ORDER_NOT_CANCELLABLE. Retrying cannot restore stock twice.
 
 ### GET /admin/orders — manage orders
 
@@ -282,7 +304,7 @@ Admin. Same filters/pagination as own order list, but returns all users' orders.
 
 ### PATCH /admin/orders/:id/status — advance fulfillment
 
-Admin. Required `status` string: processing, shipped or delivered. Allowed sequence: pending → processing → shipped → delivered. No skipping/backtracking. Invalid transition: 409 INVALID_ORDER_TRANSITION. Marking delivered also records the cash-on-delivery payment as paid, so only do so after collection. Returns updated Order.
+Admin. Required `status` string: processing, shipped or delivered. Allowed sequence: pending → processing → shipped → delivered. No skipping/backtracking. Invalid transition: 409 INVALID_ORDER_TRANSITION. A Paystack order cannot move to processing until paid: 409 PAYMENT_REQUIRED. Marking delivered also records the cash-on-delivery payment as paid, so only do so after collection. Returns updated Order.
 
 ## Notifications and support
 
@@ -297,46 +319,50 @@ An unavailable database returns the standard error envelope with code DATABASE_U
 
 ## Response objects
 
-| Object       | Fields (type / meaning)                                                                                                                                                                                                                                                                                                                |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| User         | id:string; username:string; email:string; phone?:string; avatar?:string; role:customer/admin; verified:boolean; preferences:{language:string,notifications:boolean}; createdAt:date. Password, OTP and token-version fields never returned                                                                                             |
-| Product      | id:string; categoryId:string; name:string; description:string; images:string[]; imagePublicIds:string[]; price:number; stock:integer; instock:boolean (derived); colors:string[]; ratings:number; reviews:integer; active:boolean; fave:boolean (false for public catalog); createdAt/updatedAt:date                                   |
-| Category     | id:string; name:string; image:string; imagePublicId?:string; createdAt/updatedAt:date; total:integer on category-list responses                                                                                                                                                                                                        |
-| Address      | id:string; userId:string; all address fields; createdAt/updatedAt:date                                                                                                                                                                                                                                                                 |
-| Cart         | id:string; userId:string; items:[{productId:string,quantity:integer}]; createdAt/updatedAt:date                                                                                                                                                                                                                                        |
-| Order        | id:string; userId:string; idempotencyKey:UUID; items:[{productId:string,name:string,image:string,quantity:integer,unitPrice:number}]; address:Address snapshot; total:number; currency:NGN; paymentMethod:cash_on_delivery; paymentStatus:unpaid/paid; status:pending/processing/shipped/delivered/cancelled; createdAt/updatedAt:date |
-| Notification | id:string; userId:string; title:string; message:string; read:boolean; createdAt/updatedAt:date                                                                                                                                                                                                                                         |
-| Ticket       | id:string; userId:string; subject:string; message:string; status:open; createdAt/updatedAt:date                                                                                                                                                                                                                                        |
+| Object       | Fields (type / meaning)                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| User         | id:string; username:string; email:string; phone?:string; avatar?:string; role:customer/admin; verified:boolean; preferences:{language:string,notifications:boolean}; createdAt:date. Password, OTP and token-version fields never returned                                                                                                                                                                                                              |
+| Product      | id:string; categoryId:string; name:string; description:string; images:string[]; imagePublicIds:string[]; price:number; stock:integer; instock:boolean (derived); colors:string[]; ratings:number; reviews:integer; active:boolean; fave:boolean (false for public catalog); createdAt/updatedAt:date                                                                                                                                                    |
+| Category     | id:string; name:string; image:string; imagePublicId?:string; createdAt/updatedAt:date; total:integer on category-list responses                                                                                                                                                                                                                                                                                                                         |
+| Address      | id:string; userId:string; all address fields; createdAt/updatedAt:date                                                                                                                                                                                                                                                                                                                                                                                  |
+| Cart         | id:string; userId:string; items:[{productId:string,quantity:integer}]; createdAt/updatedAt:date                                                                                                                                                                                                                                                                                                                                                         |
+| Order        | id:string; userId:string; idempotencyKey:UUID; items:[{productId:string,name:string,image:string,quantity:integer,unitPrice:number}]; address:Address snapshot; total:number; currency:NGN; paymentMethod:cash_on_delivery/paystack; paymentStatus:unpaid/paid/refund_due; payment?:{reference,authorizationUrl,accessCode,expiresAt,paidAt?,channel?} (Paystack only); status:pending/processing/shipped/delivered/cancelled; createdAt/updatedAt:date |
+| Notification | id:string; userId:string; title:string; message:string; read:boolean; createdAt/updatedAt:date                                                                                                                                                                                                                                                                                                                                                          |
+| Ticket       | id:string; userId:string; subject:string; message:string; status:open; createdAt/updatedAt:date                                                                                                                                                                                                                                                                                                                                                         |
 
 Optional undefined properties are omitted in JSON. MongoDB internal `_id` and `__v` fields are removed from document responses. User-facing ID is `id`.
 
 ## Errors and operational behavior
 
-| HTTP | Code                                             | Meaning / client action                                                        |
-| ---- | ------------------------------------------------ | ------------------------------------------------------------------------------ |
-| 400  | INVALID_JSON                                     | Correct malformed JSON                                                         |
-| 400  | INVALID_OTP                                      | Wrong, expired, used, wrong-purpose or attempt-exhausted code; request another |
-| 400  | INCORRECT_PASSWORD                               | Current password did not match                                                 |
-| 400  | EMPTY_CART                                       | Add items before checkout                                                      |
-| 400  | INVALID_UPLOAD                                   | Wrong/multiple multipart file fields                                           |
-| 401  | UNAUTHORIZED / INVALID_TOKEN                     | Sign in again; token missing, revoked or expired                               |
-| 401  | INVALID_CREDENTIALS                              | Check email/password                                                           |
-| 403  | FORBIDDEN                                        | Admin role required                                                            |
-| 403  | EMAIL_NOT_VERIFIED                               | Complete email verification                                                    |
-| 403  | CORS_DENIED                                      | Configure the browser origin on the server                                     |
-| 404  | NOT_FOUND                                        | Endpoint/resource absent or not owned by caller                                |
-| 409  | CONFLICT                                         | Unique record collision or concurrent modification                             |
-| 409  | INSUFFICIENT_STOCK                               | Refresh stock/cart                                                             |
-| 409  | ORDER_NOT_CANCELLABLE / INVALID_ORDER_TRANSITION | Refresh order status                                                           |
-| 413  | PAYLOAD_TOO_LARGE                                | JSON >100 KiB or file >5 MiB                                                   |
-| 422  | VALIDATION_ERROR                                 | Correct error.details fields                                                   |
-| 422  | INVALID_CATEGORY                                 | Use an existing category                                                       |
-| 422  | IMAGE_REQUIRED / INVALID_IMAGE                   | Upload supported valid image                                                   |
-| 429  | RATE_LIMITED                                     | Wait and retry; avoid tight retry loops                                        |
-| 502  | EMAIL_DELIVERY_FAILED / UPLOAD_FAILED            | Upstream provider failed; retry later                                          |
-| 503  | EMAIL_UNAVAILABLE / STORAGE_UNAVAILABLE          | Missing service configuration                                                  |
-| 503  | DATABASE_UNAVAILABLE                             | Database temporarily unreachable                                               |
-| 500  | INTERNAL_ERROR                                   | Unexpected failure; report requestId, retry only safely/idempotently           |
+| HTTP | Code                                                           | Meaning / client action                                                        |
+| ---- | -------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| 400  | INVALID_JSON                                                   | Correct malformed JSON                                                         |
+| 400  | INVALID_OTP                                                    | Wrong, expired, used, wrong-purpose or attempt-exhausted code; request another |
+| 400  | INCORRECT_PASSWORD                                             | Current password did not match                                                 |
+| 400  | EMPTY_CART                                                     | Add items before checkout                                                      |
+| 400  | INVALID_UPLOAD                                                 | Wrong/multiple multipart file fields                                           |
+| 401  | UNAUTHORIZED / INVALID_TOKEN                                   | Sign in again; token missing, revoked or expired                               |
+| 401  | INVALID_CREDENTIALS                                            | Check email/password                                                           |
+| 403  | FORBIDDEN                                                      | Admin role required                                                            |
+| 403  | EMAIL_NOT_VERIFIED                                             | Complete email verification                                                    |
+| 403  | CORS_DENIED                                                    | Configure the browser origin on the server                                     |
+| 404  | NOT_FOUND                                                      | Endpoint/resource absent or not owned by caller                                |
+| 409  | CONFLICT                                                       | Unique record collision or concurrent modification                             |
+| 409  | INSUFFICIENT_STOCK                                             | Refresh stock/cart                                                             |
+| 409  | ORDER_NOT_CANCELLABLE / INVALID_ORDER_TRANSITION               | Refresh order status                                                           |
+| 409  | PAYMENT_NOT_REQUIRED / ORDER_ALREADY_PAID / ORDER_NOT_PAYABLE  | Refresh the order; place a new one if expired                                  |
+| 409  | PAYMENT_MISMATCH                                               | Paid amount differs from the order; contact support                            |
+| 409  | PAYMENT_REQUIRED                                               | Admin: wait for the online payment before fulfilment                           |
+| 401  | INVALID_SIGNATURE                                              | Webhook not signed by Paystack                                                 |
+| 413  | PAYLOAD_TOO_LARGE                                              | JSON >100 KiB or file >5 MiB                                                   |
+| 422  | VALIDATION_ERROR                                               | Correct error.details fields                                                   |
+| 422  | INVALID_CATEGORY                                               | Use an existing category                                                       |
+| 422  | IMAGE_REQUIRED / INVALID_IMAGE                                 | Upload supported valid image                                                   |
+| 429  | RATE_LIMITED                                                   | Wait and retry; avoid tight retry loops                                        |
+| 502  | EMAIL_DELIVERY_FAILED / UPLOAD_FAILED / PAYMENT_PROVIDER_ERROR | Upstream provider failed; retry later                                          |
+| 503  | EMAIL_UNAVAILABLE / STORAGE_UNAVAILABLE / PAYMENT_UNAVAILABLE  | Missing service configuration                                                  |
+| 503  | DATABASE_UNAVAILABLE                                           | Database temporarily unreachable                                               |
+| 500  | INTERNAL_ERROR                                                 | Unexpected failure; report requestId, retry only safely/idempotently           |
 
 Errors from body parsing, validation, authentication, MongoDB duplicates/casts/validation/network failures, multipart uploads and upstream services use the global handler. Unexpected programming failures are intentionally not exposed verbatim. An HTTP response cannot be guaranteed after a broken client connection, process termination or reverse-proxy rejection; those happen outside the API response lifecycle.
 
