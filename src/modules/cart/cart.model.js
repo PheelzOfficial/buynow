@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const cart = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, unique: true },
-    items: [{ _id: false, productId: String, quantity: Number }],
+    items: [{ _id: false, productId: String, size: String, quantity: Number }],
   },
   schemaOptions,
 );

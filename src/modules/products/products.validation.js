@@ -42,10 +42,41 @@ const productBody = z.strictObject({
       description: 'Unit price in Naira (NGN), not kobo. At most two decimal places.',
       example: 389999.99,
     }),
-  stock: z.number().int().min(0).max(1000000).meta({
-    description: 'Units available to sell. 0 shows the product as out of stock.',
+  stock: z.number().int().min(0).max(1000000).optional().meta({
+    description:
+      'Units available to sell, for products without sizes. 0 shows it as out of stock. Do not send it when `sizes` is used; it is then calculated as the sum of the size stocks.',
     example: 25,
   }),
+  sizes: z
+    .array(
+      z.strictObject({
+        size: z.string().trim().min(1).max(10).meta({
+          description:
+            'Size label shown to customers, e.g. EU shoe size "42" or clothing size "M".',
+          example: '42',
+        }),
+        stock: z.number().int().min(0).max(1000000).meta({
+          description: 'Units available in this size. 0 shows this size as sold out.',
+          example: 10,
+        }),
+      }),
+    )
+    .min(1)
+    .max(30)
+    .refine(
+      (list) => new Set(list.map((entry) => entry.size.toUpperCase())).size === list.length,
+      'Each size may appear only once',
+    )
+    .optional()
+    .meta({
+      description:
+        'Sizes the product is sold in, each with its own stock. Customers must then pick a size. Sending this replaces the whole size list.',
+      example: [
+        { size: '38', stock: 10 },
+        { size: '39', stock: 5 },
+        { size: '40', stock: 8 },
+      ],
+    }),
   colors: z
     .array(z.string().regex(/^#[0-9a-fA-F]{6}$/))
     .max(20)
@@ -102,11 +133,23 @@ export const listProductsQuerySchema = filters;
 
 export const getProductParamsSchema = z.strictObject({ id: productId });
 
-export const createProductBodySchema = productBody;
+const stockOrSizes = (body) => !(body.stock !== undefined && body.sizes !== undefined);
+const stockOrSizesError = {
+  path: ['stock'],
+  message: 'Send either stock or sizes, not both; stock is calculated from sizes',
+};
+
+export const createProductBodySchema = productBody
+  .refine(stockOrSizes, stockOrSizesError)
+  .refine((b) => b.stock !== undefined || b.sizes !== undefined, {
+    path: ['stock'],
+    message: 'Provide stock, or sizes with a stock for each size',
+  });
 
 export const updateProductParamsSchema = z.strictObject({ id: productId });
 
 export const updateProductBodySchema = productBody
   .omit({ id: true })
   .partial()
-  .refine((b) => Object.keys(b).length > 0);
+  .refine((b) => Object.keys(b).length > 0)
+  .refine(stockOrSizes, stockOrSizesError);

@@ -11,7 +11,14 @@ const product = new Schema(
     images: { type: [String], required: true },
     imagePublicIds: [String],
     price: { type: Number, min: 0, required: true },
+    // For sized products this is always the sum of sizes[].stock; every write keeps them in step.
     stock: { type: Number, min: 0, required: true },
+    sizes: {
+      type: [
+        { _id: false, size: { type: String, required: true }, stock: { type: Number, min: 0 } },
+      ],
+      default: undefined,
+    },
     colors: [String],
     ratings: { type: Number, default: 0 },
     reviews: { type: Number, default: 0 },

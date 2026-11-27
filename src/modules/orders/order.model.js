@@ -12,6 +12,7 @@ const order = new Schema(
         productId: String,
         name: String,
         image: String,
+        size: String,
         quantity: Number,
         unitPrice: Number,
       },

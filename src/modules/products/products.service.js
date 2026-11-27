@@ -39,17 +39,31 @@ export async function getProduct({ resourceId }) {
   return { data: product, meta: null };
 }
 
+// A sized product's total stock is derived, never entered, so the two cannot disagree.
+const totalOf = (sizes) => sizes.reduce((sum, entry) => sum + entry.stock, 0);
+
 export async function createProduct({ input }) {
   const { id: productId, ...attributes } = input;
   if (!(await Category.exists({ _id: attributes.categoryId })))
     throw new ApiError(422, 'INVALID_CATEGORY', 'Category does not exist');
+  if (attributes.sizes) attributes.stock = totalOf(attributes.sizes);
   return { data: await Product.create({ _id: productId, ...attributes }), meta: null };
 }
 
 export async function updateProduct({ input, resourceId }) {
-  const changes = input;
+  const changes = { ...input };
   if (changes.categoryId && !(await Category.exists({ _id: changes.categoryId })))
     throw new ApiError(422, 'INVALID_CATEGORY', 'Category does not exist');
+  if (changes.sizes) changes.stock = totalOf(changes.sizes);
+  else if (
+    changes.stock !== undefined &&
+    (await Product.exists({ _id: resourceId, 'sizes.0': { $exists: true } }))
+  )
+    throw new ApiError(
+      422,
+      'SIZED_PRODUCT_STOCK',
+      'This product has sizes; update stock per size with `sizes`',
+    );
   const product = await Product.findByIdAndUpdate(
     resourceId,
     { $set: changes },

@@ -168,23 +168,24 @@ Public. Accepts page/limit. Returns Category array. `total` is computed from cur
 
 Admin. Returns 201 Product.
 
-| Field       | Type     | Required | Meaning / limits                                        |
-| ----------- | -------- | -------- | ------------------------------------------------------- |
-| id          | string   | Yes      | Unique stable catalog ID                                |
-| categoryId  | string   | Yes      | Existing category ID                                    |
-| name        | string   | Yes      | Trimmed product name, 2–150                             |
-| description | string   | Yes      | Trimmed description, 10–5000                            |
-| images      | string[] | Yes      | 1–10 HTTPS Cloudinary URLs; upload first                |
-| price       | number   | Yes      | NGN, 0–1,000,000,000, maximum two decimal places        |
-| stock       | integer  | Yes      | Available units, 0–1,000,000                            |
-| colors      | string[] | No       | Up to 20 `#RRGGBB` values, defaults []                  |
-| active      | boolean  | No       | Defaults true; false hides from public catalog/checkout |
+| Field       | Type     | Required | Meaning / limits                                          |
+| ----------- | -------- | -------- | --------------------------------------------------------- |
+| id          | string   | Yes      | Unique stable catalog ID                                  |
+| categoryId  | string   | Yes      | Existing category ID                                      |
+| name        | string   | Yes      | Trimmed product name, 2–150                               |
+| description | string   | Yes      | Trimmed description, 10–5000                              |
+| images      | string[] | Yes      | 1–10 HTTPS Cloudinary URLs; upload first                  |
+| price       | number   | Yes      | NGN, 0–1,000,000,000, maximum two decimal places          |
+| stock       | integer  | Yes\*    | Available units, 0–1,000,000. \*Omit when `sizes` is sent |
+| sizes       | object[] | No       | 1–30 `{size, stock}`; unique labels; replaces `stock`     |
+| colors      | string[] | No       | Up to 20 `#RRGGBB` values, defaults []                    |
+| active      | boolean  | No       | Defaults true; false hides from public catalog/checkout   |
 
-Ratings/review counts are not client-editable. Unknown category: 422 INVALID_CATEGORY. Duplicate ID: 409 CONFLICT.
+Send either `stock` or `sizes`, never both (422). With `sizes` (e.g. `[{"size":"38","stock":10},{"size":"39","stock":5}]`) each size has its own stock, customers must choose a size, and the product's `stock` is calculated as the sum. Ratings/review counts are not client-editable. Unknown category: 422 INVALID_CATEGORY. Duplicate ID: 409 CONFLICT.
 
 ### PATCH /admin/products/:id — edit/deactivate product
 
-Admin. Same product fields except `id`, all optional, at least one required. Returns updated Product; missing: 404. Use `{ "active": false }` to deactivate while preserving order history. Price/stock values replace existing values.
+Admin. Same product fields except `id`, all optional, at least one required. Returns updated Product; missing: 404. Use `{ "active": false }` to deactivate while preserving order history. Price/stock values replace existing values. `sizes` replaces the whole size list (send every size you want to keep) and recalculates `stock`. Setting `stock` directly on a sized product returns 422 SIZED_PRODUCT_STOCK. Sizes cannot be removed entirely once added; deactivate the product instead.
 
 ### POST /admin/categories — create category
 
@@ -228,11 +229,11 @@ POST requires every field below except line2. PATCH accepts any subset. IDs are 
 
 ### GET /cart
 
-Authenticated. Returns `{items: [{product: Product|null, productId: string, quantity: integer}], total: number, currency: "NGN"}`. A missing cart is an empty cart. Total is a current-price preview; unavailable products may appear and checkout revalidates them.
+Authenticated. Returns `{items: [{product: Product|null, productId: string, size?: string, quantity: integer}], total: number, currency: "NGN"}`. A missing cart is an empty cart. Total is a current-price preview; unavailable products may appear and checkout revalidates them.
 
 ### PUT /cart
 
-Authenticated. Replaces the entire cart. Required `items` is an array of 0–100 strict objects, each containing `productId` (catalog ID) and `quantity` (integer 1–99). Product IDs must be unique. `[]` clears the cart. Products must be active with sufficient stock; otherwise 409 INSUFFICIENT_STOCK. Returns Cart with IDs and quantities, not a reserved stock allocation. Stock is reserved only on order placement.
+Authenticated. Replaces the entire cart. Required `items` is an array of 0–100 strict objects, each containing `productId` (catalog ID), `size` (required for products with `sizes`, exactly one of their labels; omitted otherwise) and `quantity` (integer 1–99). Each product+size pair may appear once, so one shoe in two sizes is two lines. Missing size: 422 SIZE_REQUIRED; unknown size, or a size on an unsized product: 422 INVALID_SIZE; quantity above that size's stock: 409 INSUFFICIENT_STOCK. `[]` clears the cart. Products must be active with sufficient stock; otherwise 409 INSUFFICIENT_STOCK. Returns Cart with IDs and quantities, not a reserved stock allocation. Stock is reserved only on order placement.
 
 ```json
 { "items": [{ "productId": "PROD001", "quantity": 1 }] }
@@ -319,16 +320,16 @@ An unavailable database returns the standard error envelope with code DATABASE_U
 
 ## Response objects
 
-| Object       | Fields (type / meaning)                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| User         | id:string; username:string; email:string; phone?:string; avatar?:string; role:customer/admin; verified:boolean; preferences:{language:string,notifications:boolean}; createdAt:date. Password, OTP and token-version fields never returned                                                                                                                                                                                                              |
-| Product      | id:string; categoryId:string; name:string; description:string; images:string[]; imagePublicIds:string[]; price:number; stock:integer; instock:boolean (derived); colors:string[]; ratings:number; reviews:integer; active:boolean; fave:boolean (false for public catalog); createdAt/updatedAt:date                                                                                                                                                    |
-| Category     | id:string; name:string; image:string; imagePublicId?:string; createdAt/updatedAt:date; total:integer on category-list responses                                                                                                                                                                                                                                                                                                                         |
-| Address      | id:string; userId:string; all address fields; createdAt/updatedAt:date                                                                                                                                                                                                                                                                                                                                                                                  |
-| Cart         | id:string; userId:string; items:[{productId:string,quantity:integer}]; createdAt/updatedAt:date                                                                                                                                                                                                                                                                                                                                                         |
-| Order        | id:string; userId:string; idempotencyKey:UUID; items:[{productId:string,name:string,image:string,quantity:integer,unitPrice:number}]; address:Address snapshot; total:number; currency:NGN; paymentMethod:cash_on_delivery/paystack; paymentStatus:unpaid/paid/refund_due; payment?:{reference,authorizationUrl,accessCode,expiresAt,paidAt?,channel?} (Paystack only); status:pending/processing/shipped/delivered/cancelled; createdAt/updatedAt:date |
-| Notification | id:string; userId:string; title:string; message:string; read:boolean; createdAt/updatedAt:date                                                                                                                                                                                                                                                                                                                                                          |
-| Ticket       | id:string; userId:string; subject:string; message:string; status:open; createdAt/updatedAt:date                                                                                                                                                                                                                                                                                                                                                         |
+| Object       | Fields (type / meaning)                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| User         | id:string; username:string; email:string; phone?:string; avatar?:string; role:customer/admin; verified:boolean; preferences:{language:string,notifications:boolean}; createdAt:date. Password, OTP and token-version fields never returned                                                                                                                                                                                                                           |
+| Product      | id:string; categoryId:string; name:string; description:string; images:string[]; imagePublicIds:string[]; price:number; stock:integer (sum of sizes when sized); sizes?:[{size:string,stock:integer}]; instock:boolean (derived); colors:string[]; ratings:number; reviews:integer; active:boolean; fave:boolean (false for public catalog); createdAt/updatedAt:date                                                                                                 |
+| Category     | id:string; name:string; image:string; imagePublicId?:string; createdAt/updatedAt:date; total:integer on category-list responses                                                                                                                                                                                                                                                                                                                                      |
+| Address      | id:string; userId:string; all address fields; createdAt/updatedAt:date                                                                                                                                                                                                                                                                                                                                                                                               |
+| Cart         | id:string; userId:string; items:[{productId:string,size?:string,quantity:integer}]; createdAt/updatedAt:date                                                                                                                                                                                                                                                                                                                                                         |
+| Order        | id:string; userId:string; idempotencyKey:UUID; items:[{productId:string,name:string,image:string,size?:string,quantity:integer,unitPrice:number}]; address:Address snapshot; total:number; currency:NGN; paymentMethod:cash_on_delivery/paystack; paymentStatus:unpaid/paid/refund_due; payment?:{reference,authorizationUrl,accessCode,expiresAt,paidAt?,channel?} (Paystack only); status:pending/processing/shipped/delivered/cancelled; createdAt/updatedAt:date |
+| Notification | id:string; userId:string; title:string; message:string; read:boolean; createdAt/updatedAt:date                                                                                                                                                                                                                                                                                                                                                                       |
+| Ticket       | id:string; userId:string; subject:string; message:string; status:open; createdAt/updatedAt:date                                                                                                                                                                                                                                                                                                                                                                      |
 
 Optional undefined properties are omitted in JSON. MongoDB internal `_id` and `__v` fields are removed from document responses. User-facing ID is `id`.
 
@@ -356,6 +357,8 @@ Optional undefined properties are omitted in JSON. MongoDB internal `_id` and `_
 | 401  | INVALID_SIGNATURE                                              | Webhook not signed by Paystack                                                 |
 | 413  | PAYLOAD_TOO_LARGE                                              | JSON >100 KiB or file >5 MiB                                                   |
 | 422  | VALIDATION_ERROR                                               | Correct error.details fields                                                   |
+| 422  | SIZE_REQUIRED / INVALID_SIZE                                   | Pick one of the product's listed sizes                                         |
+| 422  | SIZED_PRODUCT_STOCK                                            | Admin: restock sized products through `sizes`                                  |
 | 422  | INVALID_CATEGORY                                               | Use an existing category                                                       |
 | 422  | IMAGE_REQUIRED / INVALID_IMAGE                                 | Upload supported valid image                                                   |
 | 429  | RATE_LIMITED                                                   | Wait and retry; avoid tight retry loops                                        |

@@ -7,6 +7,7 @@ import { env } from '../../config/env.js';
 import { assertPaystackConfigured } from '../../integrations/paystack/paystack.client.js';
 import { Address } from '../addresses/address.model.js';
 import { Cart } from '../cart/cart.model.js';
+import { assertLineAvailable } from '../cart/cart.service.js';
 import { Notification } from '../notifications/notification.model.js';
 import { Product } from '../products/product.model.js';
 import { cancelAndRestock } from './order-cancellation.service.js';
@@ -38,22 +39,42 @@ export async function placeOrder({ input, userId, email }) {
       const items = [];
       let cents = 0;
       for (const item of cart.items) {
+        const quantity = item.quantity;
+        // Sized lines take stock from that size and the product total in one atomic update;
+        // unsized lines only match products that still have no sizes.
         const product = await Product.findOneAndUpdate(
-          { _id: item.productId, active: true, stock: { $gte: item.quantity } },
-          { $inc: { stock: -item.quantity } },
+          item.size
+            ? {
+                _id: item.productId,
+                active: true,
+                sizes: { $elemMatch: { size: item.size, stock: { $gte: quantity } } },
+              }
+            : {
+                _id: item.productId,
+                active: true,
+                stock: { $gte: quantity },
+                'sizes.0': { $exists: false },
+              },
+          item.size
+            ? { $inc: { 'sizes.$.stock': -quantity, stock: -quantity } }
+            : { $inc: { stock: -quantity } },
           { new: true, session },
         );
-        if (!product)
+        if (!product) {
+          // Explain why (size now required, size removed, or sold out); aborts the transaction.
+          assertLineAvailable(await Product.findById(item.productId).session(session), item);
           throw new ApiError(
             409,
             'INSUFFICIENT_STOCK',
             `Product ${item.productId} is unavailable in this quantity`,
           );
+        }
         items.push({
           productId: product.id,
           name: product.name,
           image: product.images[0],
-          quantity: item.quantity,
+          ...(item.size ? { size: item.size } : {}),
+          quantity,
           unitPrice: product.price,
         });
         cents += Math.round(product.price * 100) * item.quantity;

@@ -258,7 +258,8 @@ const operations = [
         409: errorResponse('CONFLICT — duplicate ID'),
         422: errorResponse('VALIDATION_ERROR / INVALID_CATEGORY'),
       },
-      description: 'Price allows at most two decimal places.',
+      description:
+        'Price allows at most two decimal places. For a product sold in sizes, send `sizes` (each with its own stock) instead of `stock`; total stock is calculated.',
     },
   ],
   [
@@ -271,8 +272,14 @@ const operations = [
       params: products.updateProductParamsSchema,
       body: products.updateProductBodySchema,
       data: ref('Product'),
-      errors: { 404: errorResponse('NOT_FOUND') },
-      description: 'At least one field required. Send `{"active": false}` to hide a product.',
+      errors: {
+        404: errorResponse('NOT_FOUND'),
+        422: errorResponse(
+          'VALIDATION_ERROR / SIZED_PRODUCT_STOCK — use `sizes` for sized products',
+        ),
+      },
+      description:
+        'At least one field required. Send `{"active": false}` to hide a product. To restock a sized product, send the full `sizes` list with the new per-size stock; `stock` cannot be set directly on it.',
     },
   ],
   [
@@ -392,7 +399,10 @@ const operations = [
       access: 'user',
       body: cart.replaceCartBodySchema,
       data: ref('Cart'),
-      errors: { 409: errorResponse('INSUFFICIENT_STOCK') },
+      errors: {
+        409: errorResponse('INSUFFICIENT_STOCK — for that size, if sized'),
+        422: errorResponse('VALIDATION_ERROR / SIZE_REQUIRED / INVALID_SIZE'),
+      },
       description:
         'Product IDs must be unique. `[]` clears the cart. Stock is not reserved until checkout.',
     },
@@ -452,6 +462,9 @@ const operations = [
         403: errorResponse('EMAIL_NOT_VERIFIED'),
         404: errorResponse('NOT_FOUND — address'),
         409: errorResponse('INSUFFICIENT_STOCK / CONFLICT'),
+        422: errorResponse(
+          'SIZE_REQUIRED / INVALID_SIZE — cart line no longer matches product sizes',
+        ),
         502: errorResponse('PAYMENT_PROVIDER_ERROR — retry with the same idempotencyKey'),
         503: errorResponse('PAYMENT_UNAVAILABLE — Paystack not configured'),
       },
@@ -706,7 +719,19 @@ const components = {
         images: array(str),
         imagePublicIds: array(str),
         price: { type: 'number', description: 'NGN, not kobo' },
-        stock: int,
+        stock: {
+          type: 'integer',
+          description: 'Total units; for sized products, the sum of all size stocks',
+        },
+        sizes: {
+          type: 'array',
+          description:
+            'Present only on products sold in sizes. Customers must pick one; check each size’s own stock.',
+          items: {
+            type: 'object',
+            properties: { size: { type: 'string', example: '42' }, stock: int },
+          },
+        },
         instock: bool,
         colors: array(str),
         ratings: num,
@@ -736,7 +761,10 @@ const components = {
       properties: {
         id: str,
         userId: str,
-        items: array({ type: 'object', properties: { productId: str, quantity: int } }),
+        items: array({
+          type: 'object',
+          properties: { productId: str, size: str, quantity: int },
+        }),
         ...timestamps,
       },
     },
@@ -748,6 +776,7 @@ const components = {
           properties: {
             product: { oneOf: [ref('Product'), { type: 'null' }] },
             productId: str,
+            size: { type: 'string', description: 'Chosen size; only for sized products' },
             quantity: int,
           },
         }),
@@ -763,7 +792,14 @@ const components = {
         idempotencyKey: { type: 'string', format: 'uuid' },
         items: array({
           type: 'object',
-          properties: { productId: str, name: str, image: str, quantity: int, unitPrice: num },
+          properties: {
+            productId: str,
+            name: str,
+            image: str,
+            size: { type: 'string', description: 'Size ordered; only for sized products' },
+            quantity: int,
+            unitPrice: num,
+          },
         }),
         address: { type: 'object', properties: addressFields },
         total: num,

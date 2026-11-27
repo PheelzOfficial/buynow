@@ -47,7 +47,7 @@ A random JWT secret has been added to the local `.env`. Secrets and upload repor
 
 ## Catalog and admin seeding
 
-`scripts/catalog.json` contains all 26 original provider products and 74 added demonstration products: 10 categories with 10 products each. Original IDs, descriptions, prices, colors, ratings and review counts are preserved. The provider's review figures are imported sample aggregates, not verified customer reviews. Added products have zero reviews and ratings and sample NGN prices.
+`scripts/catalog.json` contains all 26 original provider products and 74 added demonstration products: 10 categories with 10 products each. Original IDs, descriptions, prices, colors, ratings and review counts are preserved. The provider's review figures are imported sample aggregates, not verified customer reviews. Added products have zero reviews and ratings and sample NGN prices. Footwear (EU 38–45; women's styles 36–41) and clothing (S–XXL; jeans waist 30–38) have per-size stock. Re-running the seed adds those sizes to already-seeded products that have none, splitting each product's current stock across them so totals do not change.
 
 `npm run seed`:
 

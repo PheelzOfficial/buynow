@@ -13,6 +13,16 @@ let report = { images: {}, replacements: [], completed: false };
 try {
   report = JSON.parse(await fs.readFile(reportPath));
 } catch {}
+// Spreads `total` units over the labels as evenly as possible, extras going to middle sizes.
+function splitStock(total, labels) {
+  const base = Math.floor(total / labels.length);
+  const middle = Math.floor(labels.length / 2);
+  const byCloseness = labels
+    .map((_, index) => index)
+    .sort((a, b) => Math.abs(a - middle) - Math.abs(b - middle));
+  const extra = new Set(byCloseness.slice(0, total - base * labels.length));
+  return labels.map((size, index) => ({ size, stock: base + (extra.has(index) ? 1 : 0) }));
+}
 async function download(url) {
   const u = new URL(url);
   if (
@@ -100,6 +110,23 @@ try {
         },
         { upsert: true },
       );
+      // Products seeded before sizes existed: give them the catalog's size labels, splitting
+      // their *current* stock (which may already reflect sales) so the total is unchanged.
+      if (data.sizes) {
+        const existing = await Product.findOne({ _id: id, sizes: { $exists: false } });
+        if (existing)
+          await Product.updateOne(
+            { _id: id, sizes: { $exists: false }, stock: existing.stock },
+            {
+              $set: {
+                sizes: splitStock(
+                  existing.stock,
+                  data.sizes.map((s) => s.size),
+                ),
+              },
+            },
+          );
+      }
     }
     console.log(`Product ${p.id}: image validated and uploaded`);
   }
